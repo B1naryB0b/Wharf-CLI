@@ -15,7 +15,11 @@ var listCmd = &cobra.Command{
 	Long:    "List all network ports currently running on your machine, or specify a port number to check",
 	Args:    cobra.MaximumNArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
-		return List(args[0])
+		port := ""
+		if len(args) > 0 {
+			port = args[0]
+		}
+		return List(port)
 	},
 }
 
