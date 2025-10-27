@@ -14,7 +14,7 @@ type PlatformManager interface {
 	GetActiveLogs() ([]string, error)
 	PingPort(port string, timeout float64) (string, error)
 
-	GetNextFreePort() (string, error)
+	GetNextFreePort(count int) (string, error)
 }
 
 func NewPlatformManager() PlatformManager {
