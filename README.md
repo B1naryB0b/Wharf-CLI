@@ -43,6 +43,8 @@ go build -o wharf
 | `list [port]` | `l`   | List all active ports or check a specific port |
 | `check [port] [timeout]` | `c`   | Check port connectivity with optional timeout (seconds) |
 | `free [count]` | `f`   | Find available ports (default: 1) |
+| `version` | `v`   | Display version information |
+
 
 ## Usage Examples
 
@@ -61,6 +63,10 @@ wharf t localhost:8080 5.0
 # Find available ports
 wharf free
 wharf f 10
+
+# Display version information
+wharf version
+wharf v
 ```
 
 ## Platform-Specific Behavior
