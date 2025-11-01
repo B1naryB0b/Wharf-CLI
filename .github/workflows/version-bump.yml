@@ -1,0 +1,79 @@
+name: Version Bump
+
+on:
+  workflow_dispatch:
+    inputs:
+      version_type:
+        description: 'Version bump type'
+        required: true
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+
+jobs:
+  bump-version:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Configure Git
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+
+    - name: Get current version
+      id: current_version
+      run: |
+        if git describe --tags --abbrev=0 2>/dev/null; then
+          CURRENT=$(git describe --tags --abbrev=0 | sed 's/v//')
+        else
+          CURRENT="0.0.0"
+        fi
+        echo "version=$CURRENT" >> $GITHUB_OUTPUT
+
+    - name: Calculate new version
+      id: new_version
+      run: |
+        CURRENT="${{ steps.current_version.outputs.version }}"
+        IFS='.' read -r major minor patch <<< "$CURRENT"
+
+        case "${{ github.event.inputs.version_type }}" in
+          major)
+            major=$((major + 1))
+            minor=0
+            patch=0
+            ;;
+          minor)
+            minor=$((minor + 1))
+            patch=0
+            ;;
+          patch)
+            patch=$((patch + 1))
+            ;;
+        esac
+
+        NEW_VERSION="$major.$minor.$patch"
+        echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
+
+    - name: Create and push tag
+      run: |
+        git tag -a "v${{ steps.new_version.outputs.version }}" -m "Release v${{ steps.new_version.outputs.version }}"
+        git push origin "v${{ steps.new_version.outputs.version }}"
+
+    - name: Summary
+      run: |
+        echo "### Version Bump Complete! :rocket:" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "- **Previous Version:** v${{ steps.current_version.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+        echo "- **New Version:** v${{ steps.new_version.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+        echo "- **Bump Type:** ${{ github.event.inputs.version_type }}" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "The release workflow will now build and publish the binaries." >> $GITHUB_STEP_SUMMARY

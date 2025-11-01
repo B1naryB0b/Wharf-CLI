@@ -9,11 +9,11 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var testCmd = &cobra.Command{
-	Use:     "test [port] [timeout]",
-	Aliases: []string{"t"},
-	Short:   "Test a specific port",
-	Long:    "Test a specific port with a timeout",
+var checkCmd = &cobra.Command{
+	Use:     "check [port] [timeout]",
+	Aliases: []string{"c"},
+	Short:   "Check a specific port",
+	Long:    "Check a specific port with a timeout",
 	Args:    cobra.MaximumNArgs(2),
 	RunE: func(cmd *cobra.Command, args []string) error {
 		port := ""
@@ -25,18 +25,18 @@ var testCmd = &cobra.Command{
 			timeout, _ = strconv.ParseFloat(args[1], 64)
 		}
 
-		return Test(port, timeout)
+		return Check(port, timeout)
 	},
 }
 
-func Test(port string, timeout float64) error {
+func Check(port string, timeout float64) error {
 	manager := ports.NewPlatformManager()
 
 	if len(port) == 0 {
-		return fmt.Errorf("port is required for testing")
+		return fmt.Errorf("port is required for checking")
 	}
 
-	fmt.Printf("Testing port %s...\n", port)
+	fmt.Printf("Checking port %s...\n", port)
 	result, err := manager.PingPort(port, timeout)
 
 	if result != "" {
@@ -51,5 +51,5 @@ func Test(port string, timeout float64) error {
 }
 
 func init() {
-	rootCmd.AddCommand(testCmd)
+	rootCmd.AddCommand(checkCmd)
 }

@@ -14,7 +14,7 @@ Wharf-CLI provides a unified interface for network port management across differ
 - **Simple Commands**: Easy-to-remember commands for common port operations
 - **Port Inspection**: List all active ports or query specific port numbers
 - **Process Information**: View which processes are using network ports
-- **Port Testing**: Test connectivity to specific ports with configurable timeout
+- **Port Checking**: Check connectivity to specific ports with configurable timeout
 - **Free Port Discovery**: Find available ports for your applications
 
 ## Installation
@@ -42,9 +42,11 @@ go build -o wharf
 
 | Command | Alias | Description |
 |---------|-------|-------------|
-| `list [port]` | `l` | List all active ports or check a specific port |
-| `test [port] [timeout]` | `t` | Test port connectivity with optional timeout (seconds) |
-| `free [count]` | `f` | Find available ports (default: 1) |
+| `list [port]` | `l`   | List all active ports or check a specific port |
+| `check [port] [timeout]` | `c`   | Check port connectivity with optional timeout (seconds) |
+| `free [count]` | `f`   | Find available ports (default: 1) |
+| `version` | `v`   | Display version information |
+
 
 ## Usage Examples
 
@@ -56,13 +58,17 @@ wharf l
 # Check if port 3000 is in use
 wharf list 3000
 
-# Test if port 8080 is accepting connections
-wharf test 8080
+# Check if port 8080 is accepting connections
+wharf check 8080
 wharf t localhost:8080 5.0
 
 # Find available ports
 wharf free
 wharf f 10
+
+# Display version information
+wharf version
+wharf v
 ```
 
 ## Platform-Specific Behavior
@@ -75,7 +81,7 @@ Wharf abstracts platform differences through a unified interface. Port listing o
 | **Linux** | `ss -tulpn` | TCP, UDP, Unix sockets |
 | **macOS** | `lsof -i -P -n` | TCP, UDP, IPv4, IPv6 |
 
-Port testing (`test`) and free port discovery (`free`) use Go's native `net` package for cross-platform compatibility without requiring elevated privileges.
+Port checking (`check`) and free port discovery (`free`) use Go's native `net` package for cross-platform compatibility without requiring elevated privileges.
 
 ## Development
 
@@ -87,7 +93,7 @@ Wharf-CLI/
 ├── cmd/
 │   ├── root.go                    # Root command definition
 │   ├── list.go                    # List command implementation
-│   ├── test.go                    # Test command implementation
+│   ├── check.go                    # Check command implementation
 │   └── free.go                    # Free port finder implementation
 ├── internal/
 │   └── ports/
