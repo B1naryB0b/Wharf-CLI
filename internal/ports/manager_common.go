@@ -38,9 +38,13 @@ func (c *commonManager) PingPort(port string, timeout float64) (string, error) {
 		}
 		return fmt.Sprintf("✗ Port %s is closed on %s", portNum, host), err
 	}
-	defer conn.Close()
+	defer func() {
+		if closeErr := conn.Close(); closeErr != nil {
+			err = fmt.Errorf("failed to close connection: %w", closeErr)
+		}
+	}()
 
-	return fmt.Sprintf("✓ Port %s is open on %s", portNum, host), nil
+	return fmt.Sprintf("✓ Port %s is open on %s", portNum, host), err
 }
 
 func (c *commonManager) GetNextFreePort(count int) (string, error) {
@@ -84,6 +88,9 @@ func isPortFree(port int) bool {
 	if err != nil {
 		return false
 	}
-	defer listener.Close()
+	defer func() {
+		if closeErr := listener.Close(); closeErr != nil {
+		}
+	}()
 	return true
 }
