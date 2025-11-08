@@ -38,7 +38,7 @@ func (c *commonManager) PingPort(port string, timeout float64) (string, error) {
 		}
 		return fmt.Sprintf("✗ Port %s is closed on %s", portNum, host), err
 	}
-	conn.Close()
+	defer conn.Close()
 
 	return fmt.Sprintf("✓ Port %s is open on %s", portNum, host), nil
 }
@@ -84,6 +84,6 @@ func isPortFree(port int) bool {
 	if err != nil {
 		return false
 	}
-	listener.Close()
+	defer listener.Close()
 	return true
 }

@@ -1,7 +1,6 @@
-﻿//go:build linux
+//go:build linux
 
 package ports
-
 
 func newPlatformManager() PlatformManager {
 	return &linuxManager{}

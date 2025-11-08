@@ -1,7 +1,6 @@
-﻿//go:build windows
+//go:build windows
 
 package ports
-
 
 func newPlatformManager() PlatformManager {
 	return &windowsManager{}

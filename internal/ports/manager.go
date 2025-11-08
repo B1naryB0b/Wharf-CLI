@@ -1,4 +1,4 @@
-﻿package ports
+package ports
 
 type PlatformManager interface {
 	GetAllPorts() (string, error)

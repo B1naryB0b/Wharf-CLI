@@ -1,4 +1,4 @@
-﻿package cmd
+package cmd
 
 import (
 	"fmt"
@@ -22,7 +22,11 @@ var checkCmd = &cobra.Command{
 			port = args[0]
 		}
 		if len(args) > 1 {
-			timeout, _ = strconv.ParseFloat(args[1], 64)
+			var err error
+			timeout, err = strconv.ParseFloat(args[1], 64)
+			if err != nil {
+				return fmt.Errorf("invalid timeout value: %w", err)
+			}
 		}
 
 		return Check(port, timeout)

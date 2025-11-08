@@ -1,7 +1,6 @@
-﻿//go:build darwin
+//go:build darwin
 
 package ports
-
 
 func newPlatformManager() PlatformManager {
 	return &macManager{}
