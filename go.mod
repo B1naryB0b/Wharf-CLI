@@ -1,6 +1,6 @@
 module Wharf-CLI
 
-go 1.25.3
+go 1.24.10
 
 require github.com/spf13/cobra v1.10.1
 
