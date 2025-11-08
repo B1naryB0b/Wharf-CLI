@@ -18,12 +18,11 @@ linters:
     - unconvert
     - unparam
     - gosec
+    - shadow
 
 linters-settings:
   errcheck:
     check-blank: true
-  govet:
-    check-shadowing: true
   gofmt:
     simplify: true
 
