@@ -89,8 +89,7 @@ func isPortFree(port int) bool {
 		return false
 	}
 	defer func() {
-		if closeErr := listener.Close(); closeErr != nil {
-		}
+		_ = listener.Close()
 	}()
 	return true
 }
