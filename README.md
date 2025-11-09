@@ -1,4 +1,4 @@
-# Wharf-CLI
+<img width="1600" height="600" alt="Wharf-CLI logo" src="https://github.com/user-attachments/assets/cf224af9-4c36-46db-8771-7736290b5917" />
 
 A cross-platform command-line tool for managing and inspecting network ports on Windows, Linux, and macOS.
 
