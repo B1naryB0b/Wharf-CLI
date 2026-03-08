@@ -27,7 +27,7 @@ func (c *commonManager) PingPort(port string, timeout float64) (string, error) {
 		return "", fmt.Errorf("invalid port number: %s", portNum)
 	}
 
-	address := fmt.Sprintf("%s:%s", host, portNum)
+	address := net.JoinHostPort(host, portNum)
 	timeoutDuration := time.Duration(timeout * float64(time.Second))
 
 	conn, err := net.DialTimeout("tcp", address, timeoutDuration)
