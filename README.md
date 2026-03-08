@@ -1,10 +1,12 @@
-# Wharf-CLI
+<img width="1600" height="600" alt="Wharf-CLI logo" src="https://github.com/user-attachments/assets/cf224af9-4c36-46db-8771-7736290b5917" />
 
 A cross-platform command-line tool for managing and inspecting network ports on Windows, Linux, and macOS.
 
 ## Overview
 
 Wharf-CLI provides a unified interface for network port management across different operating systems. Instead of remembering platform-specific commands like `netstat`, `ss`, or `lsof`, use Wharf's simple commands to view port information consistently on any platform.
+
+> Please note LLMs were used in the development of this tool as I'm still quite new to Go and its syntax
 
 ## Features
 
