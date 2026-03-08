@@ -19,8 +19,7 @@ jobs:
       contents: write
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+    - uses: actions/checkout@v4
       with:
         fetch-depth: 0
 
@@ -60,20 +59,9 @@ jobs:
             ;;
         esac
 
-        NEW_VERSION="$major.$minor.$patch"
-        echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
+        echo "version=$major.$minor.$patch" >> $GITHUB_OUTPUT
 
     - name: Create and push tag
       run: |
         git tag -a "v${{ steps.new_version.outputs.version }}" -m "Release v${{ steps.new_version.outputs.version }}"
         git push origin "v${{ steps.new_version.outputs.version }}"
-
-    - name: Summary
-      run: |
-        echo "### Version Bump Complete! :rocket:" >> $GITHUB_STEP_SUMMARY
-        echo "" >> $GITHUB_STEP_SUMMARY
-        echo "- **Previous Version:** v${{ steps.current_version.outputs.version }}" >> $GITHUB_STEP_SUMMARY
-        echo "- **New Version:** v${{ steps.new_version.outputs.version }}" >> $GITHUB_STEP_SUMMARY
-        echo "- **Bump Type:** ${{ github.event.inputs.version_type }}" >> $GITHUB_STEP_SUMMARY
-        echo "" >> $GITHUB_STEP_SUMMARY
-        echo "The release workflow will now build and publish the binaries." >> $GITHUB_STEP_SUMMARY
